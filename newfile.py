@@ -6,19 +6,15 @@ bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    text = (
-        "Salom! Men tarjimon botman.\n\n"
-        "Menga har qanday matn yuboring, men uni O'zbek tiliga tarjima qilib beraman."
-    )
-    bot.reply_to(message, text)
+    bot.reply_to(message, "Salom! Men tarjimon botman. Matn yuboring.")
 
 @bot.message_handler(func=lambda message: True)
 def translate_message(message):
     try:
         translated = GoogleTranslator(source='auto', target='uz').translate(message.text)
-        bot.reply_to(message, f"🔠 Tarjimasi:\n\n{translated}")
+        bot.reply_to(message, translated)
     except Exception as e:
-        bot.reply_to(message, f"Xatolik yuz berdi: {str(e)}")
+        bot.reply_to(message, f"Xatolik kodi: {str(e)}")
 
 if __name__ == "__main__":
     bot.infinity_polling()
