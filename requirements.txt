@@ -1,2 +1,5 @@
 pyTelegramBotAPI
 deep-translator
+pyTelegramBotAPI
+deep-translator
+aiogram
