@@ -1,7 +1,7 @@
 import telebot
 from deep_translator import GoogleTranslator
 
-TOKEN = "7932048703:AAELpPeRoPJjYqMpTcUvl_OcOLI0_kF5fSg"
+TOKEN = "7932048703:AAELpPeRoPJjYqMpTcUvI_OcOLl0_kF5fSg"
 bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])
