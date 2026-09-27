@@ -11,7 +11,7 @@ from telegram.ext import (
 from deep_translator import GoogleTranslator
 from langdetect import detect, DetectorFactory
 
-DetectorFactory.seed = 0  # bir xil natija chiqishi uchun
+DetectorFactory.seed = 0
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -19,10 +19,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Token environment variable orqali olinadi (kodga yozilmaydi!)
-BOT_TOKEN = os.environ.get("7932048703:AAELpPeRoPJjYqMpTcUvI_OcOLl0_kF5fSg")
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
 
-# Tillar: o'zbek, ingliz, rus
 LANG_NAMES = {
     "uz": "🇺🇿 Oʻzbekcha",
     "en": "🇬🇧 Inglizcha",
@@ -33,19 +31,14 @@ TARGET_LANGS = ["uz", "en", "ru"]
 
 
 def detect_language(text: str) -> str:
-    """Matn tilini aniqlaydi. langdetect 'uz' ni har doim to'g'ri
-    topavermagani uchun oddiy kirill/lotin tekshiruvi bilan kuchaytiramiz."""
+    if any("а" <= ch.lower() <= "я" or ch.lower() == "ё" for ch in text):
+        return "ru"
+
     try:
         detected = detect(text)
     except Exception:
         detected = "en"
 
-    # Kirill harflari bo'lsa - ruscha deb hisoblaymiz
-    if any("а" <= ch.lower() <= "я" or ch.lower() == "ё" for ch in text):
-        return "ru"
-
-    # langdetect ba'zan o'zbekchani boshqa lotin tillar bilan
-    # (masalan turkcha, indoneziyacha) adashtiradi
     if detected not in ("en", "ru"):
         return "uz"
 
